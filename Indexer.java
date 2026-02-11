@@ -9,7 +9,7 @@ public class Indexer{
         this.inverted_index = new HashMap<>();
     }
 
-    public void add(String word, String docId, int frequency){
+    public synchronized void add(String word, String docId, int frequency){
 
         if(inverted_index.containsKey(word)){
             inverted_index.get(word).put(docId, inverted_index.get(word).getOrDefault(docId, 0)+frequency);
