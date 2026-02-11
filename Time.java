@@ -2,26 +2,24 @@ public class Time {
 
     private int minutes; double seconds;
 
-    Time(long nanoseconds){
+    Time(){
+        long nanoseconds = System.nanoTime();
         this.seconds = nanoseconds/1e9;
         this.minutes = (int) (seconds/60);
         this.seconds = this.seconds - minutes*60;
     }
 
-    Time(){
-        this.minutes = 0;
-        this.seconds = 0.0;
+    Time(int minutes, double seconds){
+        this.minutes = minutes;
+        this.seconds = seconds;
     }
 
     @Override
     public String toString(){
-        return this.minutes+"m "+this.seconds+"s";
+        return this.minutes+"m "+String.format("%.2f",this.seconds)+"s";
     }
 
     public Time diff(Time time1, Time time2){
-        Time obj = new Time();
-        obj.minutes = Math.abs(time1.minutes-time2.minutes);
-        obj.seconds = Math.abs(time1.seconds-time2.seconds);
-        return obj;
+        return new Time(Math.abs(time1.minutes-time2.minutes), Math.abs(time1.seconds-time2.seconds));
     }
 }
