@@ -1,25 +1,24 @@
 public class Time {
 
-    private int minutes; double seconds;
+    private final long nanoTime;
 
     Time(){
-        long nanoseconds = System.nanoTime();
-        this.seconds = nanoseconds/1e9;
-        this.minutes = (int) (seconds/60);
-        this.seconds = this.seconds - minutes*60;
+        this.nanoTime = System.nanoTime();
     }
 
-    Time(int minutes, double seconds){
-        this.minutes = minutes;
-        this.seconds = seconds;
+    Time(long nanoTime){
+        this.nanoTime = nanoTime;
     }
 
     @Override
     public String toString(){
-        return this.minutes+"m "+String.format("%.2f",this.seconds)+"s";
+        long totalSeconds = nanoTime / 1_000_000_000;
+        long minutes = totalSeconds / 60;
+        long seconds = totalSeconds % 60;
+        return minutes + "m " + seconds + "s";
     }
 
-    public Time diff(Time time1, Time time2){
-        return new Time(Math.abs(time1.minutes-time2.minutes), Math.abs(time1.seconds-time2.seconds));
+    public Time diff(Time start, Time end){
+        return new Time(end.nanoTime - start.nanoTime);
     }
 }
