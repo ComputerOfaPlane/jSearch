@@ -1,3 +1,5 @@
+package com.grizzly.jsearch;
+
 public class Rank {
 
     private String path;
