@@ -18,17 +18,19 @@ public class FileIndexer {
         Map<String, Data> map = new HashMap<>();
         BufferedReader reader = new BufferedReader(new FileReader(file));
         String line;
+        int counter = 0;
         while((line=reader.readLine())!=null){
             for(String words:word.parse(line)){
-                if(map.containsKey(words)) map.get(words).increment();
+                if(map.containsKey(words)) map.get(words).add(++counter);
                 else{
-                    map.put(words,new Data(file,1));
+                    map.put(words,new Data(file));
+                    map.get(words).add(++counter);
                 }
             }
         }
         reader.close();
         for(String key:map.keySet()){
-            index.add(key,map.get(key).docId(),map.get(key).freq());
+            index.add(key, map.get(key).docId(), map.get(key).positions());
         }
     }
 }

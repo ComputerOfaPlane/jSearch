@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -13,6 +12,8 @@ public class Main{
             System.err.println("No Path provided");
             System.exit(0);
         }
+        int maxDisplay = 3;
+        if(args.length>1) maxDisplay = Integer.parseInt(args[1]);
 
         Time startCrawlTime = new Time();
         
@@ -30,21 +31,19 @@ public class Main{
 
         do{
             System.err.print("Enter a word to be searched = ");
-            String word = sc.nextLine();
+            String query = sc.nextLine();
 
-            word = word.toLowerCase();
-            if(word.equals("end")) break;
+            query = query.toLowerCase();
+            if(query.equals("end")) break;
 
             System.err.println("--------------------------------------------------------");
 
             Time searchStartTime = new Time();
-            List<Data> results = searchObject.search(word);
-            Time searchEndTime = new Time();
             
-
-            Time rankStartTime = new Time();
-            Collections.sort(results,(a,b)->Integer.compare(b.freq(), a.freq()));
-            Time rankEndTime = new Time();
+            searchObject.search(query);
+            Ranker ranker = new Ranker(searchObject);
+            ranker.rank();
+            List<Rank> results = ranker.get();
 
             if(results.isEmpty()){
                 System.err.println("Nothing Found");
@@ -52,13 +51,14 @@ public class Main{
             }
 
             int i=0;
-            while(i<results.size() && i<3){
-                System.err.println((i+1)+". Path = "+results.get(i).docId()+" Occuring = "+results.get(i).freq());
+            while(i<results.size() && i<maxDisplay){
+                System.err.println((i+1)+". Path = "+results.get(i).path());
                 i+=1;
             }
+
+            Time searchEndTime = new Time();
             
             System.err.println("Search Query took "+time.diff(searchStartTime, searchEndTime));
-            System.err.println("Ranking took "+time.diff(rankStartTime, rankEndTime));
 
             System.err.println("--------------------------------------------------------");
 

@@ -53,6 +53,8 @@ public class Word {
                 constructedWord = new StringBuilder();
             }
         }
+        String newString = new String(constructedWord);
+        if(isAllowedWord(newString)) list.add(newString);
         return list;
     }
 }
