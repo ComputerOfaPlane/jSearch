@@ -1,3 +1,5 @@
+package com.grizzly.jsearch;
+
 public class Time {
 
     private final long nanoTime;
