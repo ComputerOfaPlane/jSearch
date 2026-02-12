@@ -1,17 +1,20 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Data{
 
     private String path; 
-    private int freq;
+    private List<Integer> position;
 
-    Data(String path, int freq){
+    Data(String path){
         this.path = path;
-        this.freq = freq;
+        this.position = new ArrayList<>();
     }
 
-    public void increment() {this.freq += 1;}
+    public void add(int i) {this.position.add(i);}
 
     public String docId(){return this.path;}
 
-    public int freq(){return this.freq;}
+    public List<Integer> positions(){return this.position;}
 
 }
